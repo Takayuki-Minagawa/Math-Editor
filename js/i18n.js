@@ -1,0 +1,348 @@
+window.MathEditor = window.MathEditor || {};
+
+window.MathEditor.i18n = (function () {
+  var currentLang = "ja";
+
+  // ===== UI translations =====
+  var ui = {
+    ja: {
+      title: "数式エディタ",
+      editorLabel: "LaTeX入力",
+      editorPlaceholder: "ここにLaTeXを入力、またはツールバーのボタンをクリック...",
+      previewLabel: "プレビュー",
+      previewPlaceholder: "ここにプレビューが表示されます",
+      renderError: "レンダリングエラー",
+      btnCopy: "LaTeXをコピー",
+      btnSave: "Markdownで保存",
+      btnClear: "クリア",
+      toastCopied: "LaTeXをコピーしました",
+      toastCopyFailed: "コピーに失敗しました",
+      toastSaved: "Markdownファイルを保存しました",
+      langBtn: "EN"
+    },
+    en: {
+      title: "Math Equation Editor",
+      editorLabel: "LaTeX Input",
+      editorPlaceholder: "Type LaTeX here, or click a toolbar button...",
+      previewLabel: "Preview",
+      previewPlaceholder: "Preview will appear here",
+      renderError: "Rendering error",
+      btnCopy: "Copy LaTeX",
+      btnSave: "Save as Markdown",
+      btnClear: "Clear",
+      toastCopied: "LaTeX copied to clipboard",
+      toastCopyFailed: "Failed to copy",
+      toastSaved: "Markdown file saved",
+      langBtn: "JA"
+    }
+  };
+
+  // ===== Toolbar label translations =====
+  var toolbarLabels = {
+    ja: {
+      "greek": "ギリシャ文字",
+      "operators": "演算子",
+      "relations": "関係",
+      "structures": "構造",
+      "large-ops": "大型演算子",
+      "matrices": "行列",
+      "brackets": "括弧",
+      "arrows": "矢印",
+      "functions": "関数",
+      "accents": "装飾",
+      "misc": "その他"
+    },
+    en: {
+      "greek": "Greek",
+      "operators": "Operators",
+      "relations": "Relations",
+      "structures": "Structures",
+      "large-ops": "Large Ops",
+      "matrices": "Matrices",
+      "brackets": "Brackets",
+      "arrows": "Arrows",
+      "functions": "Functions",
+      "accents": "Accents",
+      "misc": "Misc"
+    }
+  };
+
+  // ===== Tooltip translations =====
+  var tooltips = {
+    ja: {
+      // Greek
+      "\\alpha": "アルファ (alpha)", "\\beta": "ベータ (beta)", "\\gamma": "ガンマ (gamma)",
+      "\\delta": "デルタ (delta)", "\\epsilon": "イプシロン (epsilon)", "\\zeta": "ゼータ (zeta)",
+      "\\eta": "エータ (eta)", "\\theta": "シータ (theta)", "\\iota": "イオタ (iota)",
+      "\\kappa": "カッパ (kappa)", "\\lambda": "ラムダ (lambda)", "\\mu": "ミュー (mu)",
+      "\\nu": "ニュー (nu)", "\\xi": "クシー (xi)", "\\pi": "パイ (pi)",
+      "\\rho": "ロー (rho)", "\\sigma": "シグマ (sigma)", "\\tau": "タウ (tau)",
+      "\\upsilon": "ウプシロン (upsilon)", "\\phi": "ファイ (phi)", "\\chi": "カイ (chi)",
+      "\\psi": "プサイ (psi)", "\\omega": "オメガ (omega)",
+      "\\Gamma": "ガンマ (大文字)", "\\Delta": "デルタ (大文字)", "\\Theta": "シータ (大文字)",
+      "\\Lambda": "ラムダ (大文字)", "\\Xi": "クシー (大文字)", "\\Pi": "パイ (大文字)",
+      "\\Sigma": "シグマ (大文字)", "\\Phi": "ファイ (大文字)", "\\Psi": "プサイ (大文字)",
+      "\\Omega": "オメガ (大文字)",
+      // Operators
+      "+": "足す", "-": "引く", "\\times": "掛ける", "\\div": "割る",
+      "\\pm": "プラスマイナス", "\\mp": "マイナスプラス", "\\cdot": "ドット積",
+      "\\ast": "アスタリスク", "\\oplus": "直和", "\\otimes": "テンソル積", "\\circ": "合成",
+      // Relations
+      "=": "等号", "\\neq": "等しくない", "<": "小なり", ">": "大なり",
+      "\\leq": "以下", "\\geq": "以上", "\\ll": "非常に小さい", "\\gg": "非常に大きい",
+      "\\approx": "近似", "\\equiv": "合同", "\\sim": "類似", "\\simeq": "漸近的に等しい",
+      "\\propto": "比例", "\\subset": "部分集合", "\\supset": "上位集合",
+      "\\subseteq": "部分集合 (等号含む)", "\\supseteq": "上位集合 (等号含む)",
+      "\\in": "属する", "\\notin": "属さない", "\\ni": "含む",
+      // Structures
+      "^{}": "上付き文字", "_{}": "下付き文字", "_{}^{}": "下付き+上付き",
+      "\\frac{}{}": "分数", "\\sqrt{}": "平方根", "\\sqrt[]{}": "n乗根",
+      "\\binom{}{}": "二項係数", "\\overline{}": "上線", "\\underline{}": "下線",
+      // Large ops
+      "\\sum_{}^{}": "総和", "\\prod_{}^{}": "総乗", "\\coprod_{}^{}": "余積",
+      "\\int_{}^{}": "積分", "\\iint": "二重積分", "\\iiint": "三重積分",
+      "\\oint": "周回積分", "\\lim_{}": "極限",
+      "\\bigcup_{}^{}": "和集合", "\\bigcap_{}^{}": "積集合",
+      // Arrows
+      "\\rightarrow": "右矢印", "\\leftarrow": "左矢印", "\\leftrightarrow": "左右矢印",
+      "\\Rightarrow": "右二重矢印", "\\Leftarrow": "左二重矢印", "\\Leftrightarrow": "左右二重矢印",
+      "\\mapsto": "写像", "\\implies": "ならば", "\\iff": "同値",
+      "\\uparrow": "上矢印", "\\downarrow": "下矢印",
+      "\\Uparrow": "上二重矢印", "\\Downarrow": "下二重矢印",
+      "\\nearrow": "右上矢印", "\\searrow": "右下矢印",
+      // Functions
+      "\\sin": "サイン", "\\cos": "コサイン", "\\tan": "タンジェント",
+      "\\sec": "セカント", "\\csc": "コセカント", "\\cot": "コタンジェント",
+      "\\arcsin": "アークサイン", "\\arccos": "アークコサイン", "\\arctan": "アークタンジェント",
+      "\\sinh": "双曲線サイン", "\\cosh": "双曲線コサイン", "\\tanh": "双曲線タンジェント",
+      "\\log": "対数", "\\ln": "自然対数", "\\exp": "指数", "\\lim": "極限",
+      "\\min": "最小値", "\\max": "最大値", "\\det": "行列式", "\\gcd": "最大公約数",
+      "\\inf": "下限", "\\sup": "上限", "\\dim": "次元", "\\ker": "核",
+      // Accents
+      "\\hat{}": "ハット", "\\check{}": "チェック", "\\bar{}": "バー",
+      "\\dot{}": "ドット", "\\ddot{}": "ダブルドット", "\\vec{}": "ベクトル",
+      "\\tilde{}": "チルダ", "\\breve{}": "ブレーヴ", "\\acute{}": "アキュート",
+      "\\grave{}": "グレイヴ", "\\overbrace{}": "上波括弧", "\\underbrace{}": "下波括弧",
+      "\\overrightarrow{}": "上矢印", "\\overleftarrow{}": "上左矢印",
+      "\\widehat{}": "ワイドハット", "\\widetilde{}": "ワイドチルダ",
+      // Brackets
+      "\\left( \\right)": "丸括弧", "\\left[ \\right]": "角括弧",
+      "\\left\\{ \\right\\}": "波括弧", "\\left\\langle \\right\\rangle": "山括弧",
+      "\\left| \\right|": "絶対値", "\\left\\| \\right\\|": "ノルム",
+      "\\left\\lceil \\right\\rceil": "天井関数", "\\left\\lfloor \\right\\rfloor": "床関数",
+      // Misc
+      "\\infty": "無限大", "\\partial": "偏微分", "\\nabla": "ナブラ",
+      "\\emptyset": "空集合", "\\forall": "全称", "\\exists": "存在",
+      "\\neg": "否定", "\\land": "論理積 (AND)", "\\lor": "論理和 (OR)",
+      "\\perp": "直交", "\\angle": "角度", "\\triangle": "三角形", "\\square": "四角形",
+      "\\mathbb{R}": "実数", "\\mathbb{Z}": "整数", "\\mathbb{N}": "自然数",
+      "\\mathbb{C}": "複素数", "\\mathbb{Q}": "有理数",
+      "\\dots": "ドット (水平)", "\\cdots": "ドット (中央)",
+      "\\vdots": "ドット (垂直)", "\\ddots": "ドット (斜め)",
+      "\\quad": "スペース (広)", "\\,": "スペース (狭)",
+      "\\text{}": "テキストモード", "\\mathbf{}": "太字",
+      "\\mathit{}": "斜体", "\\mathcal{}": "カリグラフィ体"
+    },
+    en: {
+      // Greek
+      "\\alpha": "Alpha", "\\beta": "Beta", "\\gamma": "Gamma",
+      "\\delta": "Delta", "\\epsilon": "Epsilon", "\\zeta": "Zeta",
+      "\\eta": "Eta", "\\theta": "Theta", "\\iota": "Iota",
+      "\\kappa": "Kappa", "\\lambda": "Lambda", "\\mu": "Mu",
+      "\\nu": "Nu", "\\xi": "Xi", "\\pi": "Pi",
+      "\\rho": "Rho", "\\sigma": "Sigma", "\\tau": "Tau",
+      "\\upsilon": "Upsilon", "\\phi": "Phi", "\\chi": "Chi",
+      "\\psi": "Psi", "\\omega": "Omega",
+      "\\Gamma": "Gamma (upper)", "\\Delta": "Delta (upper)", "\\Theta": "Theta (upper)",
+      "\\Lambda": "Lambda (upper)", "\\Xi": "Xi (upper)", "\\Pi": "Pi (upper)",
+      "\\Sigma": "Sigma (upper)", "\\Phi": "Phi (upper)", "\\Psi": "Psi (upper)",
+      "\\Omega": "Omega (upper)",
+      // Operators
+      "+": "Plus", "-": "Minus", "\\times": "Times", "\\div": "Division",
+      "\\pm": "Plus-minus", "\\mp": "Minus-plus", "\\cdot": "Dot product",
+      "\\ast": "Asterisk", "\\oplus": "Direct sum", "\\otimes": "Tensor product", "\\circ": "Composition",
+      // Relations
+      "=": "Equals", "\\neq": "Not equal", "<": "Less than", ">": "Greater than",
+      "\\leq": "Less or equal", "\\geq": "Greater or equal",
+      "\\ll": "Much less than", "\\gg": "Much greater than",
+      "\\approx": "Approximately", "\\equiv": "Congruent", "\\sim": "Similar",
+      "\\simeq": "Asymptotically equal", "\\propto": "Proportional",
+      "\\subset": "Subset", "\\supset": "Superset",
+      "\\subseteq": "Subset or equal", "\\supseteq": "Superset or equal",
+      "\\in": "Element of", "\\notin": "Not element of", "\\ni": "Contains",
+      // Structures
+      "^{}": "Superscript", "_{}": "Subscript", "_{}^{}": "Sub + superscript",
+      "\\frac{}{}": "Fraction", "\\sqrt{}": "Square root", "\\sqrt[]{}": "Nth root",
+      "\\binom{}{}": "Binomial", "\\overline{}": "Overline", "\\underline{}": "Underline",
+      // Large ops
+      "\\sum_{}^{}": "Summation", "\\prod_{}^{}": "Product", "\\coprod_{}^{}": "Coproduct",
+      "\\int_{}^{}": "Integral", "\\iint": "Double integral", "\\iiint": "Triple integral",
+      "\\oint": "Contour integral", "\\lim_{}": "Limit",
+      "\\bigcup_{}^{}": "Union", "\\bigcap_{}^{}": "Intersection",
+      // Arrows
+      "\\rightarrow": "Right arrow", "\\leftarrow": "Left arrow",
+      "\\leftrightarrow": "Left-right arrow",
+      "\\Rightarrow": "Double right arrow", "\\Leftarrow": "Double left arrow",
+      "\\Leftrightarrow": "Double left-right arrow",
+      "\\mapsto": "Maps to", "\\implies": "Implies", "\\iff": "If and only if",
+      "\\uparrow": "Up arrow", "\\downarrow": "Down arrow",
+      "\\Uparrow": "Double up arrow", "\\Downarrow": "Double down arrow",
+      "\\nearrow": "Northeast arrow", "\\searrow": "Southeast arrow",
+      // Functions
+      "\\sin": "Sine", "\\cos": "Cosine", "\\tan": "Tangent",
+      "\\sec": "Secant", "\\csc": "Cosecant", "\\cot": "Cotangent",
+      "\\arcsin": "Arcsine", "\\arccos": "Arccosine", "\\arctan": "Arctangent",
+      "\\sinh": "Hyperbolic sine", "\\cosh": "Hyperbolic cosine", "\\tanh": "Hyperbolic tangent",
+      "\\log": "Logarithm", "\\ln": "Natural log", "\\exp": "Exponential", "\\lim": "Limit",
+      "\\min": "Minimum", "\\max": "Maximum", "\\det": "Determinant", "\\gcd": "GCD",
+      "\\inf": "Infimum", "\\sup": "Supremum", "\\dim": "Dimension", "\\ker": "Kernel",
+      // Accents
+      "\\hat{}": "Hat", "\\check{}": "Check", "\\bar{}": "Bar",
+      "\\dot{}": "Dot", "\\ddot{}": "Double dot", "\\vec{}": "Vector",
+      "\\tilde{}": "Tilde", "\\breve{}": "Breve", "\\acute{}": "Acute",
+      "\\grave{}": "Grave", "\\overbrace{}": "Overbrace", "\\underbrace{}": "Underbrace",
+      "\\overrightarrow{}": "Right arrow above", "\\overleftarrow{}": "Left arrow above",
+      "\\widehat{}": "Wide hat", "\\widetilde{}": "Wide tilde",
+      // Brackets
+      "\\left( \\right)": "Parentheses", "\\left[ \\right]": "Square brackets",
+      "\\left\\{ \\right\\}": "Curly braces", "\\left\\langle \\right\\rangle": "Angle brackets",
+      "\\left| \\right|": "Absolute value", "\\left\\| \\right\\|": "Norm",
+      "\\left\\lceil \\right\\rceil": "Ceiling", "\\left\\lfloor \\right\\rfloor": "Floor",
+      // Matrices - use tooltip as key
+      "丸括弧行列 2x2": "Pmatrix 2x2", "丸括弧行列 3x3": "Pmatrix 3x3",
+      "角括弧行列 2x2": "Bmatrix 2x2", "角括弧行列 3x3": "Bmatrix 3x3",
+      "行列式 2x2": "Determinant 2x2", "行列式 3x3": "Determinant 3x3",
+      "括弧なし行列 2x2": "Matrix 2x2",
+      "場合分け": "Cases", "整列 (aligned)": "Aligned",
+      // Misc
+      "\\infty": "Infinity", "\\partial": "Partial", "\\nabla": "Nabla",
+      "\\emptyset": "Empty set", "\\forall": "For all", "\\exists": "Exists",
+      "\\neg": "Negation", "\\land": "Logical AND", "\\lor": "Logical OR",
+      "\\perp": "Perpendicular", "\\angle": "Angle", "\\triangle": "Triangle",
+      "\\square": "Square",
+      "\\mathbb{R}": "Real numbers", "\\mathbb{Z}": "Integers",
+      "\\mathbb{N}": "Natural numbers", "\\mathbb{C}": "Complex numbers",
+      "\\mathbb{Q}": "Rational numbers",
+      "\\dots": "Dots (horizontal)", "\\cdots": "Dots (centered)",
+      "\\vdots": "Dots (vertical)", "\\ddots": "Dots (diagonal)",
+      "\\quad": "Space (wide)", "\\,": "Space (thin)",
+      "\\text{}": "Text mode", "\\mathbf{}": "Bold",
+      "\\mathit{}": "Italic", "\\mathcal{}": "Calligraphic"
+    }
+  };
+
+  // ===== Misc button label translations =====
+  var buttonLabels = {
+    ja: {
+      "スペース": "スペース", "狭スペース": "狭スペース",
+      "テキスト": "テキスト", "太字": "太字", "斜体": "斜体",
+      "カリグラフィ": "カリグラフィ"
+    },
+    en: {
+      "スペース": "Space", "狭スペース": "Thin sp.",
+      "テキスト": "Text", "太字": "Bold", "斜体": "Italic",
+      "カリグラフィ": "Calligraphic"
+    }
+  };
+
+  function getLang() {
+    return currentLang;
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    applyUI();
+    applyToolbar();
+    localStorage.setItem("mathEditorLang", lang);
+  }
+
+  function toggle() {
+    setLang(currentLang === "ja" ? "en" : "ja");
+  }
+
+  function t(key) {
+    return (ui[currentLang] && ui[currentLang][key]) || key;
+  }
+
+  function getTooltip(latex, jaTooltip) {
+    if (currentLang === "ja") return jaTooltip;
+    // Try latex key first, then fall back to ja tooltip key for matrices
+    return tooltips.en[latex] || tooltips.en[jaTooltip] || jaTooltip;
+  }
+
+  function getButtonLabel(jaLabel) {
+    if (currentLang === "ja") return jaLabel;
+    return (buttonLabels.en && buttonLabels.en[jaLabel]) || jaLabel;
+  }
+
+  function getTabLabel(categoryId) {
+    return (toolbarLabels[currentLang] && toolbarLabels[currentLang][categoryId]) || categoryId;
+  }
+
+  function applyUI() {
+    // Text content
+    var els = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute("data-i18n");
+      els[i].textContent = t(key);
+    }
+    // Placeholders
+    var phEls = document.querySelectorAll("[data-i18n-placeholder]");
+    for (var j = 0; j < phEls.length; j++) {
+      var phKey = phEls[j].getAttribute("data-i18n-placeholder");
+      phEls[j].placeholder = t(phKey);
+    }
+    // Lang button
+    var langBtn = document.getElementById("btn-lang");
+    if (langBtn) langBtn.textContent = t("langBtn");
+    // Page title
+    document.title = currentLang === "ja"
+      ? "数式エディタ - Math Equation Editor"
+      : "Math Equation Editor";
+  }
+
+  function applyToolbar() {
+    var data = MathEditor.toolbarData;
+    if (!data) return;
+
+    // Update tab labels
+    var tabs = document.querySelectorAll(".toolbar-tab");
+    for (var i = 0; i < tabs.length; i++) {
+      var catId = tabs[i].dataset.target;
+      var cat = data.find(function (c) { return c.id === catId; });
+      if (cat) {
+        tabs[i].textContent = cat.icon + " " + getTabLabel(catId);
+      }
+    }
+
+    // Update button tooltips and labels
+    var panels = document.querySelectorAll(".toolbar-panel");
+    for (var p = 0; p < panels.length; p++) {
+      var panelId = panels[p].id.replace("panel-", "");
+      var cat = data.find(function (c) { return c.id === panelId; });
+      if (!cat) continue;
+
+      var buttons = panels[p].querySelectorAll(".toolbar-btn");
+      for (var b = 0; b < buttons.length; b++) {
+        if (b < cat.buttons.length) {
+          var btnData = cat.buttons[b];
+          buttons[b].title = getTooltip(btnData.latex, btnData.tooltip);
+          buttons[b].textContent = getButtonLabel(btnData.label);
+        }
+      }
+    }
+  }
+
+  function init() {
+    var saved = localStorage.getItem("mathEditorLang");
+    if (saved && (saved === "ja" || saved === "en")) {
+      currentLang = saved;
+    }
+  }
+
+  return {
+    init: init, getLang: getLang, setLang: setLang, toggle: toggle,
+    t: t, getTooltip: getTooltip, getButtonLabel: getButtonLabel, getTabLabel: getTabLabel
+  };
+})();

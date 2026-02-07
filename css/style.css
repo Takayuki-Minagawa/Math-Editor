@@ -18,11 +18,32 @@ header {
   color: #fff;
   padding: 12px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 header h1 {
   font-size: 1.25rem;
   font-weight: 600;
+}
+
+#btn-lang {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  letter-spacing: 0.05em;
+}
+
+#btn-lang:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 /* ===== Main ===== */

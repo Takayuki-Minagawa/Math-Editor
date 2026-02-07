@@ -5,10 +5,11 @@ window.MathEditor.actions = (function () {
   function copyLatex() {
     var latex = MathEditor.editor.getValue();
     if (!latex.trim()) return;
+    var i18n = MathEditor.i18n;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(latex).then(function () {
-        showToast("LaTeXをコピーしました");
+        showToast(i18n.t("toastCopied"));
       }).catch(function () {
         fallbackCopy(latex);
       });
@@ -18,6 +19,7 @@ window.MathEditor.actions = (function () {
   }
 
   function fallbackCopy(text) {
+    var i18n = MathEditor.i18n;
     var ta = document.createElement("textarea");
     ta.value = text;
     ta.style.position = "fixed";
@@ -26,9 +28,9 @@ window.MathEditor.actions = (function () {
     ta.select();
     try {
       document.execCommand("copy");
-      showToast("LaTeXをコピーしました");
+      showToast(i18n.t("toastCopied"));
     } catch (e) {
-      showToast("コピーに失敗しました");
+      showToast(i18n.t("toastCopyFailed"));
     }
     document.body.removeChild(ta);
   }
@@ -45,7 +47,7 @@ window.MathEditor.actions = (function () {
     a.download = "equation.md";
     a.click();
     URL.revokeObjectURL(url);
-    showToast("Markdownファイルを保存しました");
+    showToast(MathEditor.i18n.t("toastSaved"));
   }
 
   function showToast(message) {
@@ -57,7 +59,6 @@ window.MathEditor.actions = (function () {
     }
     toast.textContent = message;
     toast.classList.remove("visible");
-    // Force reflow to restart animation
     void toast.offsetWidth;
     toast.classList.add("visible");
     setTimeout(function () {

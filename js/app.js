@@ -12,6 +12,7 @@ window.MathEditor = window.MathEditor || {};
     outputEl = document.getElementById("katex-output");
     errorEl = document.getElementById("error-output");
 
+    MathEditor.i18n.init();
     MathEditor.editor.init(textareaEl);
 
     buildToolbar(
@@ -22,15 +23,23 @@ window.MathEditor = window.MathEditor || {};
 
     setupLivePreview();
     setupActionButtons();
+
+    // Apply saved language
+    var lang = MathEditor.i18n.getLang();
+    if (lang !== "ja") {
+      MathEditor.i18n.setLang(lang);
+    }
   });
 
   // ===== Toolbar =====
   function buildToolbar(data, panelsEl, tabsEl) {
+    var i18n = MathEditor.i18n;
+
     data.forEach(function (category, index) {
       // Tab button
       var tabBtn = document.createElement("button");
       tabBtn.className = "toolbar-tab" + (index === 0 ? " active" : "");
-      tabBtn.textContent = category.icon + " " + category.label;
+      tabBtn.textContent = category.icon + " " + i18n.getTabLabel(category.id);
       tabBtn.dataset.target = category.id;
       tabBtn.type = "button";
       tabBtn.addEventListener("click", function () {
@@ -46,8 +55,8 @@ window.MathEditor = window.MathEditor || {};
       category.buttons.forEach(function (btn) {
         var button = document.createElement("button");
         button.className = "toolbar-btn" + (btn.wide ? " wide" : "");
-        button.textContent = btn.label;
-        button.title = btn.tooltip;
+        button.textContent = i18n.getButtonLabel(btn.label);
+        button.title = i18n.getTooltip(btn.latex, btn.tooltip);
         button.type = "button";
         button.addEventListener("click", function () {
           MathEditor.editor.insertAtCursor(btn.latex, btn.cursorOffset || 0);
@@ -60,12 +69,10 @@ window.MathEditor = window.MathEditor || {};
   }
 
   function switchTab(targetId, tabsEl, panelsEl) {
-    // Update tabs
     var tabs = tabsEl.querySelectorAll(".toolbar-tab");
     for (var i = 0; i < tabs.length; i++) {
       tabs[i].classList.toggle("active", tabs[i].dataset.target === targetId);
     }
-    // Update panels
     var panels = panelsEl.querySelectorAll(".toolbar-panel");
     for (var j = 0; j < panels.length; j++) {
       panels[j].classList.toggle("active", panels[j].id === "panel-" + targetId);
@@ -82,11 +89,12 @@ window.MathEditor = window.MathEditor || {};
 
   function renderPreview() {
     var latex = textareaEl.value.trim();
+    var i18n = MathEditor.i18n;
     errorEl.textContent = "";
     errorEl.classList.remove("visible");
 
     if (!latex) {
-      outputEl.innerHTML = '<span class="placeholder">ここにプレビューが表示されます</span>';
+      outputEl.innerHTML = '<span class="placeholder">' + i18n.t("previewPlaceholder") + '</span>';
       return;
     }
 
@@ -101,7 +109,6 @@ window.MathEditor = window.MathEditor || {};
       errorEl.textContent = e.message;
       errorEl.classList.add("visible");
 
-      // Lenient fallback
       try {
         outputEl.innerHTML = katex.renderToString(latex, {
           displayMode: true,
@@ -109,7 +116,7 @@ window.MathEditor = window.MathEditor || {};
           strict: false
         });
       } catch (e2) {
-        outputEl.innerHTML = '<span class="placeholder">レンダリングエラー</span>';
+        outputEl.innerHTML = '<span class="placeholder">' + i18n.t("renderError") + '</span>';
       }
     }
   }
@@ -126,6 +133,14 @@ window.MathEditor = window.MathEditor || {};
 
     document.getElementById("btn-clear").addEventListener("click", function () {
       MathEditor.editor.clear();
+    });
+
+    document.getElementById("btn-lang").addEventListener("click", function () {
+      MathEditor.i18n.toggle();
+      // Re-render preview placeholder if empty
+      if (!textareaEl.value.trim()) {
+        outputEl.innerHTML = '<span class="placeholder">' + MathEditor.i18n.t("previewPlaceholder") + '</span>';
+      }
     });
   }
 })();
