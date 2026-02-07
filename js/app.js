@@ -23,11 +23,16 @@ window.MathEditor = window.MathEditor || {};
 
     setupLivePreview();
     setupActionButtons();
+    setupGuide();
 
     // Apply saved language
     var lang = MathEditor.i18n.getLang();
     if (lang !== "ja") {
       MathEditor.i18n.setLang(lang);
+    } else {
+      // Set initial guide content for default language
+      var guideBody = document.getElementById("guide-body");
+      if (guideBody) guideBody.innerHTML = MathEditor.i18n.getGuideHtml();
     }
   });
 
@@ -141,6 +146,18 @@ window.MathEditor = window.MathEditor || {};
       if (!textareaEl.value.trim()) {
         outputEl.innerHTML = '<span class="placeholder">' + MathEditor.i18n.t("previewPlaceholder") + '</span>';
       }
+    });
+  }
+
+  // ===== Guide Toggle =====
+  function setupGuide() {
+    var toggleBtn = document.getElementById("guide-toggle");
+    var content = document.getElementById("guide-content");
+    if (!toggleBtn || !content) return;
+
+    toggleBtn.addEventListener("click", function () {
+      var isOpen = content.classList.toggle("open");
+      document.getElementById("guide-arrow").textContent = isOpen ? "\u25B2" : "\u25BC";
     });
   }
 })();

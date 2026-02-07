@@ -39,7 +39,22 @@
       <button id="btn-save" type="button" data-i18n="btnSave">Markdownで保存</button>
       <button id="btn-clear" type="button" data-i18n="btnClear">クリア</button>
     </section>
+
+    <section id="guide">
+      <button id="guide-toggle" type="button">
+        <span data-i18n="guideTitle">使い方ガイド</span>
+        <span id="guide-arrow">&#9660;</span>
+      </button>
+      <div id="guide-content">
+        <div id="guide-body"></div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <p>Math Equation Editor &mdash; Powered by <a href="https://katex.org/" target="_blank" rel="noopener noreferrer">KaTeX</a> (MIT License)</p>
+    <p data-i18n="footerLicense">本アプリケーションは MIT License で公開されています。</p>
+  </footer>
 
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
   <script defer src="js/toolbar-data.js"></script>

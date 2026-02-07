@@ -18,7 +18,9 @@ window.MathEditor.i18n = (function () {
       toastCopied: "LaTeXをコピーしました",
       toastCopyFailed: "コピーに失敗しました",
       toastSaved: "Markdownファイルを保存しました",
-      langBtn: "EN"
+      langBtn: "EN",
+      guideTitle: "使い方ガイド",
+      footerLicense: "本アプリケーションは MIT License で公開されています。"
     },
     en: {
       title: "Math Equation Editor",
@@ -33,8 +35,70 @@ window.MathEditor.i18n = (function () {
       toastCopied: "LaTeX copied to clipboard",
       toastCopyFailed: "Failed to copy",
       toastSaved: "Markdown file saved",
-      langBtn: "JA"
+      langBtn: "JA",
+      guideTitle: "User Guide",
+      footerLicense: "This application is released under the MIT License."
     }
+  };
+
+  // ===== Guide HTML =====
+  var guideHtml = {
+    ja: '<h3>基本操作</h3>'
+      + '<table><thead><tr><th>操作</th><th>説明</th></tr></thead><tbody>'
+      + '<tr><td>ツールバーのボタンをクリック</td><td>LaTeX コマンドがカーソル位置に挿入されます</td></tr>'
+      + '<tr><td>入力エリアに直接入力・貼り付け</td><td>LaTeX を直接記述できます</td></tr>'
+      + '<tr><td>Ctrl+Z / Cmd+Z</td><td>元に戻す（Undo）</td></tr>'
+      + '</tbody></table>'
+      + '<h3>出力</h3>'
+      + '<table><thead><tr><th>ボタン</th><th>機能</th></tr></thead><tbody>'
+      + '<tr><td><strong>LaTeXをコピー</strong></td><td>LaTeX 文字列をクリップボードにコピー</td></tr>'
+      + '<tr><td><strong>Markdownで保存</strong></td><td><code>$$...$$</code> で囲んだ .md ファイルをダウンロード</td></tr>'
+      + '<tr><td><strong>クリア</strong></td><td>入力エリアとプレビューをリセット</td></tr>'
+      + '</tbody></table>'
+      + '<h3>入力例</h3>'
+      + '<table><thead><tr><th>LaTeX</th><th>説明</th></tr></thead><tbody>'
+      + '<tr><td><code>\\frac{a}{b}</code></td><td>分数 a/b</td></tr>'
+      + '<tr><td><code>x^{2} + y^{2} = r^{2}</code></td><td>上付き文字（べき乗）</td></tr>'
+      + '<tr><td><code>\\sum_{i=1}^{n} a_i</code></td><td>総和記号</td></tr>'
+      + '<tr><td><code>\\int_{0}^{\\infty} e^{-x} dx</code></td><td>積分</td></tr>'
+      + '<tr><td><code>\\sqrt{x^2 + y^2}</code></td><td>平方根</td></tr>'
+      + '<tr><td><code>\\begin{pmatrix} a &amp; b \\\\ c &amp; d \\end{pmatrix}</code></td><td>2x2 行列</td></tr>'
+      + '</tbody></table>'
+      + '<h3>ヒント</h3>'
+      + '<ul>'
+      + '<li>プレビューはリアルタイムで更新されます</li>'
+      + '<li>構造ボタン（分数・上付きなど）はカーソルを自動的に入力位置に移動します</li>'
+      + '<li>ボタンにマウスを合わせるとツールチップで名前が表示されます</li>'
+      + '<li>右上の <strong>EN</strong> ボタンで英語に切り替えられます</li>'
+      + '</ul>',
+    en: '<h3>Basic Usage</h3>'
+      + '<table><thead><tr><th>Action</th><th>Description</th></tr></thead><tbody>'
+      + '<tr><td>Click a toolbar button</td><td>Inserts the LaTeX command at the cursor position</td></tr>'
+      + '<tr><td>Type or paste into the input area</td><td>You can write LaTeX directly</td></tr>'
+      + '<tr><td>Ctrl+Z / Cmd+Z</td><td>Undo</td></tr>'
+      + '</tbody></table>'
+      + '<h3>Output</h3>'
+      + '<table><thead><tr><th>Button</th><th>Function</th></tr></thead><tbody>'
+      + '<tr><td><strong>Copy LaTeX</strong></td><td>Copies the LaTeX string to the clipboard</td></tr>'
+      + '<tr><td><strong>Save as Markdown</strong></td><td>Downloads a .md file wrapped in <code>$$...$$</code></td></tr>'
+      + '<tr><td><strong>Clear</strong></td><td>Resets the input area and preview</td></tr>'
+      + '</tbody></table>'
+      + '<h3>Examples</h3>'
+      + '<table><thead><tr><th>LaTeX</th><th>Description</th></tr></thead><tbody>'
+      + '<tr><td><code>\\frac{a}{b}</code></td><td>Fraction a/b</td></tr>'
+      + '<tr><td><code>x^{2} + y^{2} = r^{2}</code></td><td>Superscript (exponent)</td></tr>'
+      + '<tr><td><code>\\sum_{i=1}^{n} a_i</code></td><td>Summation</td></tr>'
+      + '<tr><td><code>\\int_{0}^{\\infty} e^{-x} dx</code></td><td>Integral</td></tr>'
+      + '<tr><td><code>\\sqrt{x^2 + y^2}</code></td><td>Square root</td></tr>'
+      + '<tr><td><code>\\begin{pmatrix} a &amp; b \\\\ c &amp; d \\end{pmatrix}</code></td><td>2x2 matrix</td></tr>'
+      + '</tbody></table>'
+      + '<h3>Tips</h3>'
+      + '<ul>'
+      + '<li>The preview updates in real time as you type</li>'
+      + '<li>Structure buttons (fraction, superscript, etc.) automatically place the cursor at the input position</li>'
+      + '<li>Hover over buttons to see their names in tooltips</li>'
+      + '<li>Click the <strong>JA</strong> button in the top-right corner to switch to Japanese</li>'
+      + '</ul>'
   };
 
   // ===== Toolbar label translations =====
@@ -300,6 +364,11 @@ window.MathEditor.i18n = (function () {
     document.title = currentLang === "ja"
       ? "数式エディタ - Math Equation Editor"
       : "Math Equation Editor";
+    // Guide content
+    var guideBody = document.getElementById("guide-body");
+    if (guideBody && guideHtml[currentLang]) {
+      guideBody.innerHTML = guideHtml[currentLang];
+    }
   }
 
   function applyToolbar() {
@@ -341,8 +410,13 @@ window.MathEditor.i18n = (function () {
     }
   }
 
+  function getGuideHtml() {
+    return guideHtml[currentLang] || guideHtml.ja;
+  }
+
   return {
     init: init, getLang: getLang, setLang: setLang, toggle: toggle,
-    t: t, getTooltip: getTooltip, getButtonLabel: getButtonLabel, getTabLabel: getTabLabel
+    t: t, getTooltip: getTooltip, getButtonLabel: getButtonLabel, getTabLabel: getTabLabel,
+    getGuideHtml: getGuideHtml
   };
 })();

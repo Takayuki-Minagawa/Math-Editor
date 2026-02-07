@@ -6,10 +6,12 @@
 ## 主な機能
 
 - **ツールバー入力** -- ギリシャ文字・演算子・分数・積分・行列など、11カテゴリのボタンから LaTeX コマンドを挿入
-- **直接入力** -- テキストエリアに LaTeX を直接記述することも可能
+- **直接入力・貼り付け** -- テキストエリアに LaTeX を直接記述・ペーストすることも可能
 - **リアルタイムプレビュー** -- 入力内容を即座に数式として描画（エラー表示付き）
 - **LaTeX コピー** -- 作成した LaTeX 文字列をクリップボードにコピー
 - **Markdown 保存** -- `$$...$$` で囲んだ Markdown ファイル (.md) としてダウンロード
+- **多言語対応** -- 日本語（デフォルト）/ 英語の切り替えが可能（設定はブラウザに保存）
+- **使い方ガイド** -- アプリ内に折りたたみ式のマニュアルを内蔵
 
 ## ツールバー カテゴリ
 
@@ -30,15 +32,19 @@
 ## 使い方
 
 1. ツールバーのタブからカテゴリを選択
-2. ボタンをクリックして LaTeX コマンドを挿入（テキストエリアに直接入力も可）
+2. ボタンをクリックして LaTeX コマンドを挿入（テキストエリアに直接入力・貼り付けも可）
 3. 右側のプレビューで数式の表示を確認
 4. 「LaTeX をコピー」または「Markdown で保存」で出力
+5. 右上の **EN / JA** ボタンで言語を切り替え
+
+詳しい操作方法はアプリ内の「使い方ガイド」セクションをご覧ください。
 
 ## 技術構成
 
 - HTML / CSS / JavaScript（フレームワーク不使用）
-- 数式描画: [KaTeX](https://katex.org/)（CDN 経由）
+- 数式描画: [KaTeX](https://katex.org/)（CDN 経由、MIT License）
 - ビルドツール不要 -- 静的ファイルのみで動作
+- デプロイ: GitHub Actions → GitHub Pages
 
 ## ローカルでの実行
 
@@ -52,25 +58,37 @@ open index.html
 
 > KaTeX は CDN から読み込むため、インターネット接続が必要です。
 
+## デプロイ
+
+GitHub Actions により、`main` ブランチへの push 時に GitHub Pages へ自動デプロイされます。
+
+リポジトリの Settings > Pages > Source を **GitHub Actions** に設定してください。
+
 ## ファイル構成
 
 ```
 Math-Editor/
-├── index.html           # エントリポイント
+├── index.html                    # エントリポイント
+├── LICENSE                       # MIT License
 ├── css/
-│   └── style.css        # スタイルシート
+│   └── style.css                 # スタイルシート
 ├── js/
-│   ├── toolbar-data.js  # ツールバーのボタン定義データ
-│   ├── editor.js        # テキストエリア管理
-│   ├── actions.js       # コピー・保存・通知
-│   └── app.js           # 初期化・ツールバー生成・プレビュー
-└── README.md
+│   ├── toolbar-data.js           # ツールバーのボタン定義データ
+│   ├── i18n.js                   # 多言語対応（日本語/英語）
+│   ├── editor.js                 # テキストエリア管理
+│   ├── actions.js                # コピー・保存・通知
+│   └── app.js                    # 初期化・ツールバー生成・プレビュー
+├── assets/
+│   └── favicon.svg               # ファビコン
+└── .github/
+    └── workflows/
+        └── deploy.yml            # GitHub Pages デプロイ設定
 ```
 
 ## ライセンス
 
-MIT License
+MIT License -- 詳細は [LICENSE](LICENSE) ファイルを参照してください。
 
 ## 謝辞
 
-- [KaTeX](https://katex.org/) -- 高速な数式レンダリングライブラリ
+- [KaTeX](https://katex.org/) -- 高速な数式レンダリングライブラリ（MIT License）
