@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数式エディタ - Math Equation Editor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>数式エディタ</h1>
+  </header>
+
+  <main>
+    <section id="toolbar">
+      <nav id="toolbar-tabs"></nav>
+      <div id="toolbar-panels"></div>
+    </section>
+
+    <section id="workspace">
+      <div id="editor-pane">
+        <label for="latex-input">LaTeX入力</label>
+        <textarea id="latex-input" placeholder="ここにLaTeXを入力、またはツールバーのボタンをクリック..." spellcheck="false"></textarea>
+      </div>
+      <div id="preview-pane">
+        <label>プレビュー</label>
+        <div id="katex-output">
+          <span class="placeholder">ここにプレビューが表示されます</span>
+        </div>
+        <div id="error-output"></div>
+      </div>
+    </section>
+
+    <section id="action-bar">
+      <button id="btn-copy" type="button">LaTeXをコピー</button>
+      <button id="btn-save" type="button">Markdownで保存</button>
+      <button id="btn-clear" type="button">クリア</button>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+  <script defer src="js/toolbar-data.js"></script>
+  <script defer src="js/editor.js"></script>
+  <script defer src="js/actions.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>
