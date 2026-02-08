@@ -50,6 +50,65 @@ window.MathEditor.actions = (function () {
     showToast(MathEditor.i18n.t("toastSaved"));
   }
 
+  function copyImage() {
+    var outputEl = document.getElementById("katex-output");
+    var i18n = MathEditor.i18n;
+
+    // Check if there's content to capture
+    if (!outputEl || !outputEl.textContent.trim() || outputEl.querySelector(".placeholder")) {
+      showToast(i18n.t("toastNoPreview"));
+      return;
+    }
+
+    html2canvas(outputEl, {
+      backgroundColor: "#ffffff",
+      scale: 2 // Higher quality
+    }).then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        if (navigator.clipboard && window.ClipboardItem) {
+          var item = new ClipboardItem({ "image/png": blob });
+          navigator.clipboard.write([item]).then(function () {
+            showToast(i18n.t("toastImageCopied"));
+          }).catch(function () {
+            showToast(i18n.t("toastImageCopyFailed"));
+          });
+        } else {
+          showToast(i18n.t("toastImageCopyFailed"));
+        }
+      }, "image/png");
+    }).catch(function () {
+      showToast(i18n.t("toastImageCopyFailed"));
+    });
+  }
+
+  function saveImage() {
+    var outputEl = document.getElementById("katex-output");
+    var i18n = MathEditor.i18n;
+
+    // Check if there's content to capture
+    if (!outputEl || !outputEl.textContent.trim() || outputEl.querySelector(".placeholder")) {
+      showToast(i18n.t("toastNoPreview"));
+      return;
+    }
+
+    html2canvas(outputEl, {
+      backgroundColor: "#ffffff",
+      scale: 2 // Higher quality
+    }).then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "equation.png";
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(i18n.t("toastImageSaved"));
+      }, "image/png");
+    }).catch(function () {
+      showToast(i18n.t("toastImageCopyFailed"));
+    });
+  }
+
   function showToast(message) {
     var toast = document.getElementById("toast");
     if (!toast) {
@@ -66,5 +125,11 @@ window.MathEditor.actions = (function () {
     }, 2000);
   }
 
-  return { copyLatex: copyLatex, saveAsMarkdown: saveAsMarkdown, showToast: showToast };
+  return {
+    copyLatex: copyLatex,
+    copyImage: copyImage,
+    saveAsMarkdown: saveAsMarkdown,
+    saveImage: saveImage,
+    showToast: showToast
+  };
 })();

@@ -132,8 +132,16 @@ window.MathEditor = window.MathEditor || {};
       MathEditor.actions.copyLatex();
     });
 
+    document.getElementById("btn-copy-image").addEventListener("click", function () {
+      MathEditor.actions.copyImage();
+    });
+
     document.getElementById("btn-save").addEventListener("click", function () {
       MathEditor.actions.saveAsMarkdown();
+    });
+
+    document.getElementById("btn-save-image").addEventListener("click", function () {
+      MathEditor.actions.saveImage();
     });
 
     document.getElementById("btn-clear").addEventListener("click", function () {

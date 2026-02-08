@@ -13,11 +13,17 @@ window.MathEditor.i18n = (function () {
       previewPlaceholder: "ここにプレビューが表示されます",
       renderError: "レンダリングエラー",
       btnCopy: "LaTeXをコピー",
+      btnCopyImage: "画像をコピー",
       btnSave: "Markdownで保存",
+      btnSaveImage: "画像を保存",
       btnClear: "クリア",
       toastCopied: "LaTeXをコピーしました",
+      toastImageCopied: "画像をコピーしました",
+      toastImageCopyFailed: "画像のコピーに失敗しました",
       toastCopyFailed: "コピーに失敗しました",
       toastSaved: "Markdownファイルを保存しました",
+      toastImageSaved: "画像を保存しました",
+      toastNoPreview: "プレビューがありません",
       langBtn: "EN",
       guideTitle: "使い方ガイド",
       footerLicense: "本アプリケーションは MIT License で公開されています。"
@@ -30,11 +36,17 @@ window.MathEditor.i18n = (function () {
       previewPlaceholder: "Preview will appear here",
       renderError: "Rendering error",
       btnCopy: "Copy LaTeX",
+      btnCopyImage: "Copy Image",
       btnSave: "Save as Markdown",
+      btnSaveImage: "Save Image",
       btnClear: "Clear",
       toastCopied: "LaTeX copied to clipboard",
+      toastImageCopied: "Image copied to clipboard",
+      toastImageCopyFailed: "Failed to copy image",
       toastCopyFailed: "Failed to copy",
       toastSaved: "Markdown file saved",
+      toastImageSaved: "Image saved",
+      toastNoPreview: "No preview available",
       langBtn: "JA",
       guideTitle: "User Guide",
       footerLicense: "This application is released under the MIT License."
@@ -52,7 +64,9 @@ window.MathEditor.i18n = (function () {
       + '<h3>出力</h3>'
       + '<table><thead><tr><th>ボタン</th><th>機能</th></tr></thead><tbody>'
       + '<tr><td><strong>LaTeXをコピー</strong></td><td>LaTeX 文字列をクリップボードにコピー</td></tr>'
+      + '<tr><td><strong>画像をコピー</strong></td><td>プレビュー画像（PNG）をクリップボードにコピー</td></tr>'
       + '<tr><td><strong>Markdownで保存</strong></td><td><code>$$...$$</code> で囲んだ .md ファイルをダウンロード</td></tr>'
+      + '<tr><td><strong>画像を保存</strong></td><td>プレビュー画像を PNG ファイルとしてダウンロード</td></tr>'
       + '<tr><td><strong>クリア</strong></td><td>入力エリアとプレビューをリセット</td></tr>'
       + '</tbody></table>'
       + '<h3>入力例</h3>'
@@ -80,7 +94,9 @@ window.MathEditor.i18n = (function () {
       + '<h3>Output</h3>'
       + '<table><thead><tr><th>Button</th><th>Function</th></tr></thead><tbody>'
       + '<tr><td><strong>Copy LaTeX</strong></td><td>Copies the LaTeX string to the clipboard</td></tr>'
+      + '<tr><td><strong>Copy Image</strong></td><td>Copies the preview image (PNG) to the clipboard</td></tr>'
       + '<tr><td><strong>Save as Markdown</strong></td><td>Downloads a .md file wrapped in <code>$$...$$</code></td></tr>'
+      + '<tr><td><strong>Save Image</strong></td><td>Downloads the preview as a PNG image file</td></tr>'
       + '<tr><td><strong>Clear</strong></td><td>Resets the input area and preview</td></tr>'
       + '</tbody></table>'
       + '<h3>Examples</h3>'
