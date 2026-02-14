@@ -108,7 +108,7 @@ window.MathEditor = window.MathEditor || {};
         displayMode: true,
         throwOnError: true,
         strict: false,
-        trust: true
+        trust: false
       });
     } catch (e) {
       errorEl.textContent = e.message;
