@@ -130,6 +130,7 @@ window.MathEditor.i18n = (function () {
       "arrows": "矢印",
       "functions": "関数",
       "accents": "装飾",
+      "formatting": "書式",
       "misc": "その他"
     },
     en: {
@@ -143,6 +144,7 @@ window.MathEditor.i18n = (function () {
       "arrows": "Arrows",
       "functions": "Functions",
       "accents": "Accents",
+      "formatting": "Formatting",
       "misc": "Misc"
     }
   };
@@ -205,6 +207,10 @@ window.MathEditor.i18n = (function () {
       "\\grave{}": "グレイヴ", "\\overbrace{}": "上波括弧", "\\underbrace{}": "下波括弧",
       "\\overrightarrow{}": "上矢印", "\\overleftarrow{}": "上左矢印",
       "\\widehat{}": "ワイドハット", "\\widetilde{}": "ワイドチルダ",
+      // Formatting
+      "textcolor": "文字色", "bgcolor": "背景色",
+      "\\cancel{}": "取消線 (左下→右上)", "\\bcancel{}": "逆取消線 (左上→右下)",
+      "\\xcancel{}": "×取消線", "\\boxed{}": "囲み枠",
       // Brackets
       "\\left( \\right)": "丸括弧", "\\left[ \\right]": "角括弧",
       "\\left\\{ \\right\\}": "波括弧", "\\left\\langle \\right\\rangle": "山括弧",
@@ -283,6 +289,13 @@ window.MathEditor.i18n = (function () {
       "\\grave{}": "Grave", "\\overbrace{}": "Overbrace", "\\underbrace{}": "Underbrace",
       "\\overrightarrow{}": "Right arrow above", "\\overleftarrow{}": "Left arrow above",
       "\\widehat{}": "Wide hat", "\\widetilde{}": "Wide tilde",
+      // Formatting
+      "textcolor": "Text Color", "bgcolor": "Background Color",
+      "\\cancel{}": "Strikethrough", "\\bcancel{}": "Back Strikethrough",
+      "\\xcancel{}": "X Strikethrough", "\\boxed{}": "Boxed",
+      "文字色": "Text Color", "背景色": "Background Color",
+      "取消線 (左下→右上)": "Strikethrough", "逆取消線 (左上→右下)": "Back Strikethrough",
+      "×取消線": "X Strikethrough", "囲み枠": "Boxed",
       // Brackets
       "\\left( \\right)": "Parentheses", "\\left[ \\right]": "Square brackets",
       "\\left\\{ \\right\\}": "Curly braces", "\\left\\langle \\right\\rangle": "Angle brackets",
@@ -316,12 +329,18 @@ window.MathEditor.i18n = (function () {
     ja: {
       "スペース": "スペース", "狭スペース": "狭スペース",
       "テキスト": "テキスト", "太字": "太字", "斜体": "斜体",
-      "カリグラフィ": "カリグラフィ"
+      "カリグラフィ": "カリグラフィ",
+      "文字色": "文字色", "背景色": "背景色",
+      "取消線 ╱": "取消線 ╱", "取消線 ╲": "取消線 ╲", "取消線 ╳": "取消線 ╳",
+      "囲み枠": "囲み枠"
     },
     en: {
       "スペース": "Space", "狭スペース": "Thin sp.",
       "テキスト": "Text", "太字": "Bold", "斜体": "Italic",
-      "カリグラフィ": "Calligraphic"
+      "カリグラフィ": "Calligraphic",
+      "文字色": "Color", "背景色": "Highlight",
+      "取消線 ╱": "Cancel ╱", "取消線 ╲": "Cancel ╲", "取消線 ╳": "Cancel ╳",
+      "囲み枠": "Boxed"
     }
   };
 
@@ -412,7 +431,7 @@ window.MathEditor.i18n = (function () {
       for (var b = 0; b < buttons.length; b++) {
         if (b < cat.buttons.length) {
           var btnData = cat.buttons[b];
-          buttons[b].title = getTooltip(btnData.latex, btnData.tooltip);
+          buttons[b].title = getTooltip(btnData.latex || btnData.action || "", btnData.tooltip);
           buttons[b].textContent = getButtonLabel(btnData.label);
         }
       }

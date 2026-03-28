@@ -403,6 +403,41 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* ===== Color Picker ===== */
+.color-picker-popup {
+  position: absolute;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(8, 28px);
+  gap: 4px;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #d0d0d0;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.1s, transform 0.1s;
+  background: none;
+}
+
+.color-swatch:hover {
+  border-color: #333;
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+.color-swatch:active {
+  transform: scale(1.05);
+}
+
 /* ===== Toast ===== */
 #toast {
   position: fixed;

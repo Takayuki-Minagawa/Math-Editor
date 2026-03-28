@@ -227,6 +227,19 @@ window.MathEditor.toolbarData = [
     ]
   },
   {
+    id: "formatting",
+    label: "書式",
+    icon: "Aa",
+    buttons: [
+      { label: "文字色", action: "textcolor", tooltip: "文字色", wide: true },
+      { label: "背景色", action: "bgcolor", tooltip: "背景色", wide: true },
+      { label: "取消線 ╱", latex: "\\cancel{}", tooltip: "取消線 (左下→右上)", cursorOffset: -1, wide: true, wrap: true },
+      { label: "取消線 ╲", latex: "\\bcancel{}", tooltip: "逆取消線 (左上→右下)", cursorOffset: -1, wide: true, wrap: true },
+      { label: "取消線 ╳", latex: "\\xcancel{}", tooltip: "×取消線", cursorOffset: -1, wide: true, wrap: true },
+      { label: "囲み枠", latex: "\\boxed{}", tooltip: "囲み枠", cursorOffset: -1, wide: true, wrap: true }
+    ]
+  },
+  {
     id: "misc",
     label: "その他",
     icon: "∞",
