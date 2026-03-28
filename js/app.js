@@ -59,13 +59,15 @@ window.MathEditor = window.MathEditor || {};
   function showColorPicker(action, triggerBtn) {
     var existing = document.getElementById("color-picker-popup");
     if (existing) {
+      var sameButton = existing.dataset.trigger === action;
       closeColorPicker();
-      return;
+      if (sameButton) return;
     }
 
     var popup = document.createElement("div");
     popup.className = "color-picker-popup";
     popup.id = "color-picker-popup";
+    popup.dataset.trigger = action;
 
     var wrapBefore = action === "textcolor"
       ? "\\textcolor{__COLOR__}{"
