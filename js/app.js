@@ -25,15 +25,13 @@ window.MathEditor = window.MathEditor || {};
     setupActionButtons();
     setupGuide();
 
-    // Apply saved language
-    var lang = MathEditor.i18n.getLang();
-    if (lang !== "ja") {
-      MathEditor.i18n.setLang(lang);
-    } else {
-      // Set initial guide content for default language
-      var guideBody = document.getElementById("guide-body");
-      if (guideBody) guideBody.innerHTML = MathEditor.i18n.getGuideHtml();
-    }
+    MathEditor.i18n.setLang(MathEditor.i18n.getLang());
+    MathEditor.draft.init(textareaEl, function (status) {
+      var statusEl = document.getElementById("draft-status");
+      statusEl.dataset.i18n = status;
+      statusEl.textContent = MathEditor.i18n.t(status);
+    });
+    renderPreview();
   });
 
   // ===== Color Palette =====
@@ -155,17 +153,9 @@ window.MathEditor = window.MathEditor || {};
             e.stopPropagation();
             showColorPicker(btn.action, button);
           });
-        } else if (btn.wrap) {
+        } else if (btn.wrapBefore !== undefined) {
           button.addEventListener("click", function () {
-            var idx = btn.latex.indexOf("{");
-            if (idx >= 0) {
-              MathEditor.editor.wrapSelection(
-                btn.latex.substring(0, idx + 1),
-                btn.latex.substring(btn.latex.length - 1)
-              );
-            } else {
-              MathEditor.editor.insertAtCursor(btn.latex, btn.cursorOffset || 0);
-            }
+            MathEditor.editor.wrapSelection(btn.wrapBefore, btn.wrapAfter);
           });
         } else {
           button.addEventListener("click", function () {
@@ -200,6 +190,7 @@ window.MathEditor = window.MathEditor || {};
   }
 
   function renderPreview() {
+    clearTimeout(debounceTimer);
     var latex = textareaEl.value.trim();
     var i18n = MathEditor.i18n;
     errorEl.textContent = "";
@@ -207,36 +198,53 @@ window.MathEditor = window.MathEditor || {};
 
     if (!latex) {
       outputEl.innerHTML = '<span class="placeholder">' + i18n.t("previewPlaceholder") + '</span>';
-      return;
+      return false;
     }
 
+    if (!window.katex) {
+      errorEl.textContent = i18n.t("rendererUnavailable");
+      errorEl.classList.add("visible");
+      outputEl.textContent = "";
+      return false;
+    }
+
+    var options = {
+      displayMode: true,
+      output: "htmlAndMathml",
+      throwOnError: true,
+      strict: false,
+      trust: false,
+      maxSize: 50,
+      maxExpand: 1000
+    };
     try {
-      outputEl.innerHTML = katex.renderToString(latex, {
-        displayMode: true,
-        throwOnError: true,
-        strict: false,
-        trust: false
-      });
+      outputEl.innerHTML = katex.renderToString(latex, options);
+      return true;
     } catch (e) {
       errorEl.textContent = e.message;
       errorEl.classList.add("visible");
 
       try {
-        outputEl.innerHTML = katex.renderToString(latex, {
-          displayMode: true,
-          throwOnError: false,
-          strict: false
-        });
+        options.throwOnError = false;
+        outputEl.innerHTML = katex.renderToString(latex, options);
       } catch (e2) {
         outputEl.innerHTML = '<span class="placeholder">' + i18n.t("renderError") + '</span>';
       }
+      return false;
     }
   }
+
+  // Export actions flush the debounce so they always use the current input.
+  MathEditor.preview = { render: renderPreview };
 
   // ===== Action Buttons =====
   function setupActionButtons() {
     document.getElementById("btn-copy").addEventListener("click", function () {
       MathEditor.actions.copyLatex();
+    });
+
+    document.getElementById("btn-copy-mathml").addEventListener("click", function () {
+      MathEditor.actions.copyMathML();
     });
 
     document.getElementById("btn-copy-image").addEventListener("click", function () {
@@ -257,10 +265,7 @@ window.MathEditor = window.MathEditor || {};
 
     document.getElementById("btn-lang").addEventListener("click", function () {
       MathEditor.i18n.toggle();
-      // Re-render preview placeholder if empty
-      if (!textareaEl.value.trim()) {
-        outputEl.innerHTML = '<span class="placeholder">' + MathEditor.i18n.t("previewPlaceholder") + '</span>';
-      }
+      renderPreview();
     });
   }
 
@@ -272,6 +277,7 @@ window.MathEditor = window.MathEditor || {};
 
     toggleBtn.addEventListener("click", function () {
       var isOpen = content.classList.toggle("open");
+      toggleBtn.setAttribute("aria-expanded", String(isOpen));
       document.getElementById("guide-arrow").textContent = isOpen ? "\u25B2" : "\u25BC";
     });
   }

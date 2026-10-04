@@ -1,36 +1,51 @@
 window.MathEditor = window.MathEditor || {};
 
 window.MathEditor.editor = (function () {
+  "use strict";
+
   var textareaEl = null;
 
   function init(el) {
     textareaEl = el;
   }
 
-  function insertAtCursor(text, cursorOffset) {
-    textareaEl.focus();
+  function replaceSelection(text, caretOffset) {
     var start = textareaEl.selectionStart;
     var end = textareaEl.selectionEnd;
+    var expected = textareaEl.value.substring(0, start) + text + textareaEl.value.substring(end);
+    var emittedValue = null;
 
-    // execCommand preserves the browser's undo stack
-    var inserted = false;
+    function trackInput() {
+      emittedValue = textareaEl.value;
+    }
+
+    textareaEl.focus();
+    textareaEl.setSelectionRange(start, end);
+    textareaEl.addEventListener("input", trackInput);
     try {
-      inserted = document.execCommand("insertText", false, text);
+      // insertText preserves native undo history where the browser supports it.
+      document.execCommand("insertText", false, text);
     } catch (e) {
-      inserted = false;
+      // The range fallback also supports browsers without execCommand.
+    } finally {
+      textareaEl.removeEventListener("input", trackInput);
     }
 
-    if (!inserted) {
-      var before = textareaEl.value.substring(0, start);
-      var after = textareaEl.value.substring(end);
-      textareaEl.value = before + text + after;
+    if (textareaEl.value !== expected) {
+      textareaEl.setRangeText(text, start, end, "end");
     }
 
-    var newPos = start + text.length + (cursorOffset || 0);
-    textareaEl.selectionStart = newPos;
-    textareaEl.selectionEnd = newPos;
+    var newPos = Math.max(start, Math.min(start + text.length, start + caretOffset));
+    textareaEl.setSelectionRange(newPos, newPos);
 
-    textareaEl.dispatchEvent(new Event("input", { bubbles: true }));
+    // Native insertion usually emits input itself; range replacement does not.
+    if (emittedValue !== textareaEl.value) {
+      textareaEl.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+
+  function insertAtCursor(text, cursorOffset) {
+    replaceSelection(text, text.length + (cursorOffset || 0));
   }
 
   function getValue() {
@@ -43,43 +58,22 @@ window.MathEditor.editor = (function () {
   }
 
   function wrapSelection(before, after) {
-    textareaEl.focus();
-    var start = textareaEl.selectionStart;
-    var end = textareaEl.selectionEnd;
-    var selected = textareaEl.value.substring(start, end);
+    var selected = textareaEl.value.substring(textareaEl.selectionStart, textareaEl.selectionEnd);
     var text = before + selected + after;
-
-    var inserted = false;
-    try {
-      inserted = document.execCommand("insertText", false, text);
-    } catch (e) {
-      inserted = false;
-    }
-
-    if (!inserted) {
-      var beforeText = textareaEl.value.substring(0, start);
-      var afterText = textareaEl.value.substring(end);
-      textareaEl.value = beforeText + text + afterText;
-    }
-
-    if (selected) {
-      var newPos = start + text.length;
-      textareaEl.selectionStart = newPos;
-      textareaEl.selectionEnd = newPos;
-    } else {
-      var newPos = start + before.length;
-      textareaEl.selectionStart = newPos;
-      textareaEl.selectionEnd = newPos;
-    }
-
-    textareaEl.dispatchEvent(new Event("input", { bubbles: true }));
+    replaceSelection(text, selected ? text.length : before.length);
   }
 
   function clear() {
-    textareaEl.value = "";
-    textareaEl.dispatchEvent(new Event("input", { bubbles: true }));
-    textareaEl.focus();
+    textareaEl.setSelectionRange(0, textareaEl.value.length);
+    replaceSelection("", 0);
   }
 
-  return { init: init, insertAtCursor: insertAtCursor, wrapSelection: wrapSelection, getValue: getValue, setValue: setValue, clear: clear };
+  return {
+    init: init,
+    insertAtCursor: insertAtCursor,
+    wrapSelection: wrapSelection,
+    getValue: getValue,
+    setValue: setValue,
+    clear: clear
+  };
 })();

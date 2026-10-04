@@ -94,12 +94,12 @@ window.MathEditor.toolbarData = [
       { label: "x²", latex: "^{}", tooltip: "上付き文字", cursorOffset: -1 },
       { label: "xₙ", latex: "_{}", tooltip: "下付き文字", cursorOffset: -1 },
       { label: "x²ₙ", latex: "_{}^{}", tooltip: "下付き+上付き", cursorOffset: -4 },
-      { label: "a/b", latex: "\\frac{}{}", tooltip: "分数", cursorOffset: -3 },
-      { label: "√x", latex: "\\sqrt{}", tooltip: "平方根", cursorOffset: -1 },
+      { label: "a/b", latex: "\\frac{}{}", tooltip: "分数", wrapBefore: "\\frac{", wrapAfter: "}{}" },
+      { label: "√x", latex: "\\sqrt{}", tooltip: "平方根", wrapBefore: "\\sqrt{", wrapAfter: "}" },
       { label: "ⁿ√x", latex: "\\sqrt[]{}", tooltip: "n乗根", cursorOffset: -3 },
-      { label: "(n k)", latex: "\\binom{}{}", tooltip: "二項係数", cursorOffset: -3 },
-      { label: "x̄", latex: "\\overline{}", tooltip: "上線", cursorOffset: -1 },
-      { label: "x_", latex: "\\underline{}", tooltip: "下線", cursorOffset: -1 }
+      { label: "(n k)", latex: "\\binom{}{}", tooltip: "二項係数", wrapBefore: "\\binom{", wrapAfter: "}{}" },
+      { label: "x̄", latex: "\\overline{}", tooltip: "上線", wrapBefore: "\\overline{", wrapAfter: "}" },
+      { label: "x_", latex: "\\underline{}", tooltip: "下線", wrapBefore: "\\underline{", wrapAfter: "}" }
     ]
   },
   {
@@ -140,14 +140,14 @@ window.MathEditor.toolbarData = [
     label: "括弧",
     icon: "()",
     buttons: [
-      { label: "( )", latex: "\\left( \\right)", tooltip: "丸括弧", cursorOffset: -7 },
-      { label: "[ ]", latex: "\\left[ \\right]", tooltip: "角括弧", cursorOffset: -7 },
-      { label: "{ }", latex: "\\left\\{ \\right\\}", tooltip: "波括弧", cursorOffset: -9 },
-      { label: "⟨ ⟩", latex: "\\left\\langle \\right\\rangle", tooltip: "山括弧", cursorOffset: -14 },
-      { label: "| |", latex: "\\left| \\right|", tooltip: "絶対値", cursorOffset: -7 },
-      { label: "‖ ‖", latex: "\\left\\| \\right\\|", tooltip: "ノルム", cursorOffset: -9 },
-      { label: "⌈ ⌉", latex: "\\left\\lceil \\right\\rceil", tooltip: "天井関数", cursorOffset: -13 },
-      { label: "⌊ ⌋", latex: "\\left\\lfloor \\right\\rfloor", tooltip: "床関数", cursorOffset: -14 }
+      { label: "( )", latex: "\\left( \\right)", tooltip: "丸括弧", wrapBefore: "\\left( ", wrapAfter: "\\right)" },
+      { label: "[ ]", latex: "\\left[ \\right]", tooltip: "角括弧", wrapBefore: "\\left[ ", wrapAfter: "\\right]" },
+      { label: "{ }", latex: "\\left\\{ \\right\\}", tooltip: "波括弧", wrapBefore: "\\left\\{ ", wrapAfter: "\\right\\}" },
+      { label: "⟨ ⟩", latex: "\\left\\langle \\right\\rangle", tooltip: "山括弧", wrapBefore: "\\left\\langle ", wrapAfter: "\\right\\rangle" },
+      { label: "| |", latex: "\\left| \\right|", tooltip: "絶対値", wrapBefore: "\\left| ", wrapAfter: "\\right|" },
+      { label: "‖ ‖", latex: "\\left\\| \\right\\|", tooltip: "ノルム", wrapBefore: "\\left\\| ", wrapAfter: "\\right\\|" },
+      { label: "⌈ ⌉", latex: "\\left\\lceil \\right\\rceil", tooltip: "天井関数", wrapBefore: "\\left\\lceil ", wrapAfter: "\\right\\rceil" },
+      { label: "⌊ ⌋", latex: "\\left\\lfloor \\right\\rfloor", tooltip: "床関数", wrapBefore: "\\left\\lfloor ", wrapAfter: "\\right\\rfloor" }
     ]
   },
   {
@@ -208,22 +208,22 @@ window.MathEditor.toolbarData = [
     label: "装飾",
     icon: "x̂",
     buttons: [
-      { label: "x̂", latex: "\\hat{}", tooltip: "ハット", cursorOffset: -1 },
-      { label: "x̌", latex: "\\check{}", tooltip: "チェック", cursorOffset: -1 },
-      { label: "x̄", latex: "\\bar{}", tooltip: "バー", cursorOffset: -1 },
-      { label: "ẋ", latex: "\\dot{}", tooltip: "ドット", cursorOffset: -1 },
-      { label: "ẍ", latex: "\\ddot{}", tooltip: "ダブルドット", cursorOffset: -1 },
-      { label: "x⃗", latex: "\\vec{}", tooltip: "ベクトル", cursorOffset: -1 },
-      { label: "x̃", latex: "\\tilde{}", tooltip: "チルダ", cursorOffset: -1 },
-      { label: "x˘", latex: "\\breve{}", tooltip: "ブレーヴ", cursorOffset: -1 },
-      { label: "x́", latex: "\\acute{}", tooltip: "アキュート", cursorOffset: -1 },
-      { label: "x̀", latex: "\\grave{}", tooltip: "グレイヴ", cursorOffset: -1 },
-      { label: "⏞x", latex: "\\overbrace{}", tooltip: "上波括弧", cursorOffset: -1 },
-      { label: "⏟x", latex: "\\underbrace{}", tooltip: "下波括弧", cursorOffset: -1 },
-      { label: "→x", latex: "\\overrightarrow{}", tooltip: "上矢印", cursorOffset: -1 },
-      { label: "←x", latex: "\\overleftarrow{}", tooltip: "上左矢印", cursorOffset: -1 },
-      { label: "x̂ₘ", latex: "\\widehat{}", tooltip: "ワイドハット", cursorOffset: -1 },
-      { label: "x̃ₘ", latex: "\\widetilde{}", tooltip: "ワイドチルダ", cursorOffset: -1 }
+      { label: "x̂", latex: "\\hat{}", tooltip: "ハット", wrapBefore: "\\hat{", wrapAfter: "}" },
+      { label: "x̌", latex: "\\check{}", tooltip: "チェック", wrapBefore: "\\check{", wrapAfter: "}" },
+      { label: "x̄", latex: "\\bar{}", tooltip: "バー", wrapBefore: "\\bar{", wrapAfter: "}" },
+      { label: "ẋ", latex: "\\dot{}", tooltip: "ドット", wrapBefore: "\\dot{", wrapAfter: "}" },
+      { label: "ẍ", latex: "\\ddot{}", tooltip: "ダブルドット", wrapBefore: "\\ddot{", wrapAfter: "}" },
+      { label: "x⃗", latex: "\\vec{}", tooltip: "ベクトル", wrapBefore: "\\vec{", wrapAfter: "}" },
+      { label: "x̃", latex: "\\tilde{}", tooltip: "チルダ", wrapBefore: "\\tilde{", wrapAfter: "}" },
+      { label: "x˘", latex: "\\breve{}", tooltip: "ブレーヴ", wrapBefore: "\\breve{", wrapAfter: "}" },
+      { label: "x́", latex: "\\acute{}", tooltip: "アキュート", wrapBefore: "\\acute{", wrapAfter: "}" },
+      { label: "x̀", latex: "\\grave{}", tooltip: "グレイヴ", wrapBefore: "\\grave{", wrapAfter: "}" },
+      { label: "⏞x", latex: "\\overbrace{}", tooltip: "上波括弧", wrapBefore: "\\overbrace{", wrapAfter: "}" },
+      { label: "⏟x", latex: "\\underbrace{}", tooltip: "下波括弧", wrapBefore: "\\underbrace{", wrapAfter: "}" },
+      { label: "→x", latex: "\\overrightarrow{}", tooltip: "上矢印", wrapBefore: "\\overrightarrow{", wrapAfter: "}" },
+      { label: "←x", latex: "\\overleftarrow{}", tooltip: "上左矢印", wrapBefore: "\\overleftarrow{", wrapAfter: "}" },
+      { label: "x̂ₘ", latex: "\\widehat{}", tooltip: "ワイドハット", wrapBefore: "\\widehat{", wrapAfter: "}" },
+      { label: "x̃ₘ", latex: "\\widetilde{}", tooltip: "ワイドチルダ", wrapBefore: "\\widetilde{", wrapAfter: "}" }
     ]
   },
   {
@@ -233,10 +233,10 @@ window.MathEditor.toolbarData = [
     buttons: [
       { label: "文字色", action: "textcolor", tooltip: "文字色", wide: true },
       { label: "背景色", action: "bgcolor", tooltip: "背景色", wide: true },
-      { label: "取消線 ╱", latex: "\\cancel{}", tooltip: "取消線 (左下→右上)", cursorOffset: -1, wide: true, wrap: true },
-      { label: "取消線 ╲", latex: "\\bcancel{}", tooltip: "逆取消線 (左上→右下)", cursorOffset: -1, wide: true, wrap: true },
-      { label: "取消線 ╳", latex: "\\xcancel{}", tooltip: "×取消線", cursorOffset: -1, wide: true, wrap: true },
-      { label: "囲み枠", latex: "\\boxed{}", tooltip: "囲み枠", cursorOffset: -1, wide: true, wrap: true }
+      { label: "取消線 ╱", latex: "\\cancel{}", tooltip: "取消線 (左下→右上)", wide: true, wrapBefore: "\\cancel{", wrapAfter: "}" },
+      { label: "取消線 ╲", latex: "\\bcancel{}", tooltip: "逆取消線 (左上→右下)", wide: true, wrapBefore: "\\bcancel{", wrapAfter: "}" },
+      { label: "取消線 ╳", latex: "\\xcancel{}", tooltip: "×取消線", wide: true, wrapBefore: "\\xcancel{", wrapAfter: "}" },
+      { label: "囲み枠", latex: "\\boxed{}", tooltip: "囲み枠", wide: true, wrapBefore: "\\boxed{", wrapAfter: "}" }
     ]
   },
   {
@@ -268,10 +268,10 @@ window.MathEditor.toolbarData = [
       { label: "⋱", latex: "\\ddots", tooltip: "ドット (斜め)" },
       { label: "スペース", latex: "\\quad", tooltip: "スペース (広)", wide: true },
       { label: "狭スペース", latex: "\\,", tooltip: "スペース (狭)", wide: true },
-      { label: "テキスト", latex: "\\text{}", tooltip: "テキストモード", cursorOffset: -1, wide: true },
-      { label: "太字", latex: "\\mathbf{}", tooltip: "太字", cursorOffset: -1, wide: true },
-      { label: "斜体", latex: "\\mathit{}", tooltip: "斜体", cursorOffset: -1, wide: true },
-      { label: "カリグラフィ", latex: "\\mathcal{}", tooltip: "カリグラフィ体", cursorOffset: -1, wide: true }
+      { label: "テキスト", latex: "\\text{}", tooltip: "テキストモード", wide: true, wrapBefore: "\\text{", wrapAfter: "}" },
+      { label: "太字", latex: "\\mathbf{}", tooltip: "太字", wide: true, wrapBefore: "\\mathbf{", wrapAfter: "}" },
+      { label: "斜体", latex: "\\mathit{}", tooltip: "斜体", wide: true, wrapBefore: "\\mathit{", wrapAfter: "}" },
+      { label: "カリグラフィ", latex: "\\mathcal{}", tooltip: "カリグラフィ体", wide: true, wrapBefore: "\\mathcal{", wrapAfter: "}" }
     ]
   }
 ];

@@ -15,7 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -23,8 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Stage public site files
+        run: |
+          mkdir _site
+          cp index.html _site/
+          cp -R css js assets _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

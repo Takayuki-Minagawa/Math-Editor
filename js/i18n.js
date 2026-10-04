@@ -12,18 +12,27 @@ window.MathEditor.i18n = (function () {
       previewLabel: "プレビュー",
       previewPlaceholder: "ここにプレビューが表示されます",
       renderError: "レンダリングエラー",
+      rendererUnavailable: "数式の描画機能を読み込めませんでした。接続を確認して再読み込みしてください。",
+      draftEmpty: "入力内容はこのブラウザに自動保存されます",
+      draftSaved: "このブラウザに下書きを保存しました",
+      draftRestored: "前回の下書きを復元しました",
+      draftUnavailable: "自動保存を利用できません。必要な数式はコピーまたは保存してください。",
       btnCopy: "LaTeXをコピー",
+      btnCopyMathML: "MathMLをコピー",
       btnCopyImage: "画像をコピー",
       btnSave: "Markdownで保存",
       btnSaveImage: "画像を保存",
       btnClear: "クリア",
       toastCopied: "LaTeXをコピーしました",
+      toastMathMLCopied: "MathMLをコピーしました",
       toastImageCopied: "画像をコピーしました",
       toastImageCopyFailed: "画像のコピーに失敗しました",
+      toastImageSaveFailed: "画像の保存に失敗しました",
       toastCopyFailed: "コピーに失敗しました",
       toastSaved: "Markdownファイルを保存しました",
+      toastSaveFailed: "保存に失敗しました",
       toastImageSaved: "画像を保存しました",
-      toastNoPreview: "プレビューがありません",
+      toastNoPreview: "出力できる数式がありません。入力内容を確認してください。",
       langBtn: "EN",
       guideTitle: "使い方ガイド",
       footerLicense: "本アプリケーションは MIT License で公開されています。"
@@ -35,18 +44,27 @@ window.MathEditor.i18n = (function () {
       previewLabel: "Preview",
       previewPlaceholder: "Preview will appear here",
       renderError: "Rendering error",
+      rendererUnavailable: "The math renderer could not load. Check your connection and reload.",
+      draftEmpty: "Your input is saved automatically in this browser",
+      draftSaved: "Draft saved in this browser",
+      draftRestored: "Previous draft restored",
+      draftUnavailable: "Autosave is unavailable. Copy or save any formulas you need.",
       btnCopy: "Copy LaTeX",
+      btnCopyMathML: "Copy MathML",
       btnCopyImage: "Copy Image",
       btnSave: "Save as Markdown",
       btnSaveImage: "Save Image",
       btnClear: "Clear",
       toastCopied: "LaTeX copied to clipboard",
+      toastMathMLCopied: "MathML copied to clipboard",
       toastImageCopied: "Image copied to clipboard",
       toastImageCopyFailed: "Failed to copy image",
+      toastImageSaveFailed: "Failed to save image",
       toastCopyFailed: "Failed to copy",
       toastSaved: "Markdown file saved",
+      toastSaveFailed: "Failed to save",
       toastImageSaved: "Image saved",
-      toastNoPreview: "No preview available",
+      toastNoPreview: "No valid formula to export. Check your input.",
       langBtn: "JA",
       guideTitle: "User Guide",
       footerLicense: "This application is released under the MIT License."
@@ -65,6 +83,7 @@ window.MathEditor.i18n = (function () {
       + '<h3>出力</h3>'
       + '<table><thead><tr><th>ボタン</th><th>機能</th></tr></thead><tbody>'
       + '<tr><td><strong>LaTeXをコピー</strong></td><td>LaTeX 文字列をクリップボードにコピー</td></tr>'
+      + '<tr><td><strong>MathMLをコピー</strong></td><td>数式を MathML のテキストとしてコピー。MathML 対応ツールのソース入力に利用できます</td></tr>'
       + '<tr><td><strong>画像をコピー</strong></td><td>プレビュー画像（PNG）をクリップボードにコピー</td></tr>'
       + '<tr><td><strong>Markdownで保存</strong></td><td><code>$$...$$</code> で囲んだ .md ファイルをダウンロード</td></tr>'
       + '<tr><td><strong>画像を保存</strong></td><td>プレビュー画像を PNG ファイルとしてダウンロード</td></tr>'
@@ -85,7 +104,9 @@ window.MathEditor.i18n = (function () {
       + '<ul>'
       + '<li>プレビューはリアルタイムで更新されます</li>'
       + '<li>構造ボタン（分数・上付きなど）はカーソルを自動的に入力位置に移動します</li>'
-      + '<li>囲み枠・取消線・色付けは、選択中のテキストをそのままラップして挿入できます</li>'
+      + '<li>分数・平方根・括弧・装飾・書式は、選択中のテキストをラップして挿入できます</li>'
+      + '<li>入力内容はこのブラウザに自動保存され、次回表示時に復元されます。クリアすると下書きも削除されます</li>'
+      + '<li>自動保存を利用できない場合は入力欄の下に表示されます。共有のブラウザでは利用後にクリアしてください</li>'
       + '<li>ボタンにマウスを合わせるとツールチップで名前が表示されます</li>'
       + '<li>右上の <strong>EN</strong> ボタンで英語に切り替えられます</li>'
       + '</ul>',
@@ -99,6 +120,7 @@ window.MathEditor.i18n = (function () {
       + '<h3>Output</h3>'
       + '<table><thead><tr><th>Button</th><th>Function</th></tr></thead><tbody>'
       + '<tr><td><strong>Copy LaTeX</strong></td><td>Copies the LaTeX string to the clipboard</td></tr>'
+      + '<tr><td><strong>Copy MathML</strong></td><td>Copies MathML source as plain text for tools that accept MathML input</td></tr>'
       + '<tr><td><strong>Copy Image</strong></td><td>Copies the preview image (PNG) to the clipboard</td></tr>'
       + '<tr><td><strong>Save as Markdown</strong></td><td>Downloads a .md file wrapped in <code>$$...$$</code></td></tr>'
       + '<tr><td><strong>Save Image</strong></td><td>Downloads the preview as a PNG image file</td></tr>'
@@ -119,7 +141,9 @@ window.MathEditor.i18n = (function () {
       + '<ul>'
       + '<li>The preview updates in real time as you type</li>'
       + '<li>Structure buttons (fraction, superscript, etc.) automatically place the cursor at the input position</li>'
-      + '<li>Box, cancel, and color actions can wrap the currently selected text</li>'
+      + '<li>Fractions, square roots, brackets, accents, and formatting can wrap selected text</li>'
+      + '<li>Your input is saved in this browser and restored on your next visit. Clear also removes the saved draft</li>'
+      + '<li>If autosave is unavailable, a message appears below the input. Clear your draft after using a shared browser</li>'
       + '<li>Hover over buttons to see their names in tooltips</li>'
       + '<li>Click the <strong>JA</strong> button in the top-right corner to switch to Japanese</li>'
       + '</ul>'
@@ -357,11 +381,12 @@ window.MathEditor.i18n = (function () {
   }
 
   function setLang(lang) {
+    if (lang !== "ja" && lang !== "en") return;
     currentLang = lang;
     document.documentElement.lang = lang;
     applyUI();
     applyToolbar();
-    localStorage.setItem("mathEditorLang", lang);
+    MathEditor.storage.set("mathEditorLang", lang);
   }
 
   function toggle() {
@@ -447,7 +472,7 @@ window.MathEditor.i18n = (function () {
   }
 
   function init() {
-    var saved = localStorage.getItem("mathEditorLang");
+    var saved = MathEditor.storage.get("mathEditorLang");
     if (saved && (saved === "ja" || saved === "en")) {
       currentLang = saved;
     }
