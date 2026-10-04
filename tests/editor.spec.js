@@ -386,3 +386,75 @@ test("saves a complete real PNG with loaded fonts for a wide formula on mobile",
   await expect(page.locator("#toast")).toHaveText("Image saved");
   await expect(page.locator(".katex-html")).toHaveCount(1);
 });
+
+test("equation tags remain after the formula and inside the exported PNG", async ({ page }) => {
+  await openApp(page);
+  await page.evaluate(() => {
+    window.measureTaggedFormula = container => {
+      const html = container.querySelector(".katex-display > .katex > .katex-html");
+      const bases = html.querySelectorAll(":scope > .katex-base");
+      const lastBase = bases[bases.length - 1].getBoundingClientRect();
+      const tag = html.querySelector(":scope > .katex-tag").getBoundingClientRect();
+      const bounds = container.getBoundingClientRect();
+      return {
+        gap: tag.left - lastBase.right,
+        tagLeft: tag.left - bounds.left,
+        tagRight: tag.right - bounds.left,
+        tagTop: tag.top - bounds.top,
+        tagBottom: tag.bottom - bounds.top,
+        width: bounds.width,
+        height: bounds.height
+      };
+    };
+    const capture = window.html2canvas;
+    window.html2canvas = (element, options) => {
+      window.lastTaggedCapture = window.measureTaggedFormula(element);
+      return capture(element, options);
+    };
+  });
+
+  for (const latex of ["x\\tag{1}", "a+b=c\\tag{Equation 1}"]) {
+    await page.locator("#latex-input").fill(latex);
+    await page.evaluate(async () => {
+      MathEditor.preview.render();
+      await document.fonts.ready;
+    });
+    const preview = await page.evaluate(() => window.measureTaggedFormula(document.getElementById("katex-output")));
+    expect(preview.gap).toBeGreaterThan(10);
+
+    const pendingDownload = page.waitForEvent("download");
+    await page.locator("#btn-save-image").click();
+    const download = await pendingDownload;
+    expect(download.suggestedFilename()).toBe("equation.png");
+    const snapshot = await page.evaluate(() => window.lastTaggedCapture);
+    expect(snapshot.gap).toBeGreaterThan(10);
+    expect(snapshot.tagLeft).toBeGreaterThanOrEqual(0);
+    expect(snapshot.tagRight).toBeLessThanOrEqual(snapshot.width);
+    expect(snapshot.tagTop).toBeGreaterThanOrEqual(0);
+    expect(snapshot.tagBottom).toBeLessThanOrEqual(snapshot.height);
+
+    const png = await fs.readFile(await download.path());
+    expect(png.readUInt32BE(16)).toBeGreaterThanOrEqual(Math.ceil(snapshot.tagRight * 2));
+    const tagInk = await page.evaluate(async ({ dataURL, bounds }) => {
+      const image = new Image();
+      image.src = dataURL;
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const context = canvas.getContext("2d");
+      context.drawImage(image, 0, 0);
+      const pixels = context.getImageData(
+        Math.floor(bounds.tagLeft * 2), Math.floor(bounds.tagTop * 2),
+        Math.ceil((bounds.tagRight - bounds.tagLeft) * 2), Math.ceil((bounds.tagBottom - bounds.tagTop) * 2)
+      ).data;
+      let count = 0;
+      for (let offset = 0; offset < pixels.length; offset += 4) {
+        if (pixels[offset + 3] > 128 && pixels[offset] < 150 && pixels[offset + 1] < 150 && pixels[offset + 2] < 150) count++;
+      }
+      return count;
+    }, { dataURL: "data:image/png;base64," + png.toString("base64"), bounds: snapshot });
+    expect(tagInk).toBeGreaterThan(10);
+    await expect(page.locator("#toast")).toHaveText("Image saved");
+  }
+});

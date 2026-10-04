@@ -233,6 +233,12 @@ main {
   flex-shrink: 0;
 }
 
+/* Include equation numbers in the intrinsic width of previews and PNG clones. */
+.katex-display > .katex > .katex-html > .katex-tag {
+  position: static;
+  margin-left: 2em;
+}
+
 #katex-output {
   justify-content: safe center;
 }
