@@ -79,7 +79,8 @@ window.MathEditor.actions = (function () {
     }
     var markup = math.cloneNode(true);
     markup.setAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
-    return copyText(markup.outerHTML, "toastMathMLCopied");
+    // HTML serialization may emit &nbsp;, which is not a predefined XML entity.
+    return copyText(new XMLSerializer().serializeToString(markup), "toastMathMLCopied");
   }
 
   function downloadBlob(blob, filename) {

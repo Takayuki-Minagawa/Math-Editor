@@ -179,6 +179,29 @@ test("MathML copy flushes the preview debounce and includes current XML", async 
   expect(result.text).not.toContain("old");
 });
 
+test("MathML with text spaces remains valid standalone XML", async ({ page }) => {
+  await openApp(page);
+  await mockClipboard(page);
+  for (const latex of ["\\text{a b}", "a\\ b", "\\text{a~b}"]) {
+    await page.locator("#latex-input").fill(latex);
+    const result = await page.evaluate(async () => {
+      await MathEditor.actions.copyMathML();
+      const text = window.copiedTexts.at(-1);
+      const xml = new DOMParser().parseFromString(text, "application/xml");
+      return {
+        error: Boolean(xml.querySelector("parsererror")),
+        namespace: xml.documentElement.namespaceURI,
+        source: xml.querySelector("annotation")?.textContent,
+        text: xml.documentElement.textContent
+      };
+    });
+    expect(result.error).toBe(false);
+    expect(result.namespace).toBe("http://www.w3.org/1998/Math/MathML");
+    expect(result.source).toBe(latex);
+    expect(result.text).toContain("\u00a0");
+  }
+});
+
 test("empty or invalid input cannot export stale MathML or images", async ({ page }) => {
   await openApp(page);
   await mockClipboard(page);
