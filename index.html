@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>数式エディタ - Math Equation Editor</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -25,18 +25,20 @@
       <div id="editor-pane">
         <label for="latex-input" data-i18n="editorLabel">LaTeX入力</label>
         <textarea id="latex-input" data-i18n-placeholder="editorPlaceholder" placeholder="ここにLaTeXを入力、またはツールバーのボタンをクリック..." spellcheck="false"></textarea>
+        <p id="draft-status" role="status" data-i18n="draftEmpty">入力内容はこのブラウザに自動保存されます</p>
       </div>
       <div id="preview-pane">
         <label data-i18n="previewLabel">プレビュー</label>
         <div id="katex-output">
           <span class="placeholder" data-i18n="previewPlaceholder">ここにプレビューが表示されます</span>
         </div>
-        <div id="error-output"></div>
+        <div id="error-output" role="status"></div>
       </div>
     </section>
 
     <section id="action-bar">
       <button id="btn-copy" type="button" data-i18n="btnCopy">LaTeXをコピー</button>
+      <button id="btn-copy-mathml" type="button" data-i18n="btnCopyMathML">MathMLをコピー</button>
       <button id="btn-copy-image" type="button" data-i18n="btnCopyImage">画像をコピー</button>
       <button id="btn-save" type="button" data-i18n="btnSave">Markdownで保存</button>
       <button id="btn-save-image" type="button" data-i18n="btnSaveImage">画像を保存</button>
@@ -44,7 +46,7 @@
     </section>
 
     <section id="guide">
-      <button id="guide-toggle" type="button">
+      <button id="guide-toggle" type="button" aria-expanded="false" aria-controls="guide-content">
         <span data-i18n="guideTitle">使い方ガイド</span>
         <span id="guide-arrow">&#9660;</span>
       </button>
@@ -59,10 +61,12 @@
     <p data-i18n="footerLicense">本アプリケーションは MIT License で公開されています。</p>
   </footer>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js"></script>
   <script defer src="js/toolbar-data.js"></script>
+  <script defer src="js/storage.js"></script>
   <script defer src="js/i18n.js"></script>
   <script defer src="js/editor.js"></script>
+  <script defer src="js/draft.js"></script>
   <script defer src="js/actions.js"></script>
   <script defer src="js/app.js"></script>
 </body>
